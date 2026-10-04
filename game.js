@@ -603,6 +603,7 @@ function endGame() {
             value: Math.floor(score)
         });
     }
+
     if (score > bestScore) {
 
         bestScore = Math.floor(score);
@@ -2460,6 +2461,13 @@ if (
     soundButton
 ) {
     soundButton.style.display = "none";
+}
+if (
+    typeof ytgame !== "undefined" &&
+    ytgame.IN_PLAYABLES_ENV &&
+    pauseButton
+) {
+    pauseButton.style.display = "none";
 }
 
 // ============================================================
