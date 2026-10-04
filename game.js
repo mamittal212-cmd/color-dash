@@ -18,7 +18,16 @@ const gameContainer = document.querySelector(".game-container");
 
 let audioContext = null;
 let soundEnabled = true;
-
+let youtubeAudioEnabled = true;
+function updateYouTubeAudioState() {
+    if (
+        typeof ytgame !== "undefined" &&
+        ytgame.system &&
+        typeof ytgame.system.isAudioEnabled === "function"
+    ) {
+        youtubeAudioEnabled = ytgame.system.isAudioEnabled();
+    }
+}
 function initAudio() {
     if (!audioContext) {
         audioContext = new (
@@ -40,7 +49,7 @@ function playTone(
     volume = 0.08,
     slideTo = null
 ) {
-    if (!soundEnabled) return;
+    if (!soundEnabled || !youtubeAudioEnabled) return;
 
     initAudio();
 
@@ -549,6 +558,30 @@ function resumeGame() {
 
 }
 
+// ============================================================
+// YOUTUBE PLAYABLES PAUSE / RESUME
+// ============================================================
+
+if (
+    typeof ytgame !== "undefined" &&
+    ytgame.system
+) {
+    if (typeof ytgame.system.onPause === "function") {
+        ytgame.system.onPause(() => {
+            if (gameRunning && !gamePaused) {
+                pauseGame();
+            }
+        });
+    }
+
+    if (typeof ytgame.system.onResume === "function") {
+        ytgame.system.onResume(() => {
+            if (gameRunning && gamePaused) {
+                resumeGame();
+            }
+        });
+    }
+}
 
 // ============================================================
 // END GAME
@@ -560,6 +593,16 @@ function endGame() {
 
     gamePaused = false;
 
+        // Send final score to YouTube Playables
+    if (
+        typeof ytgame !== "undefined" &&
+        ytgame.engagement &&
+        typeof ytgame.engagement.sendScore === "function"
+    ) {
+        ytgame.engagement.sendScore({
+            value: Math.floor(score)
+        });
+    }
     if (score > bestScore) {
 
         bestScore = Math.floor(score);
@@ -2411,8 +2454,30 @@ if (soundButton) {
     );
 
 }
+if (
+    typeof ytgame !== "undefined" &&
+    ytgame.IN_PLAYABLES_ENV &&
+    soundButton
+) {
+    soundButton.style.display = "none";
+}
 
+// ============================================================
+// YOUTUBE PLAYABLES AUDIO
+// ============================================================
 
+if (
+    typeof ytgame !== "undefined" &&
+    ytgame.system
+) {
+    updateYouTubeAudioState();
+
+    if (typeof ytgame.system.onAudioEnabledChange === "function") {
+        ytgame.system.onAudioEnabledChange((enabled) => {
+            youtubeAudioEnabled = enabled;
+        });
+    }
+}
 // ============================================================
 // INITIALIZATION
 // ============================================================
