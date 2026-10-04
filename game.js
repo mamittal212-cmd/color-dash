@@ -283,6 +283,9 @@ let powerUpTimer = 0;
 
 let difficultyTimer = 0;
 
+// Playables-safe power-up timers
+let magnetTimer = 0;
+let speedBoostTimer = 0;
 
 // ============================================================
 // PLAYER
@@ -428,13 +431,14 @@ function resetGame() {
 
     gameSpeed = 3;
 
-    obstacleTimer = 0;
+obstacleTimer = 0;
+coinTimer = 0;
+powerUpTimer = 0;
+difficultyTimer = 0;
 
-    coinTimer = 0;
-
-    powerUpTimer = 0;
-
-    difficultyTimer = 0;
+// Reset power-up timers
+magnetTimer = 0;
+speedBoostTimer = 0;
 
     obstacles = [];
 
@@ -1248,12 +1252,7 @@ function activatePowerUp(
             "#9b59b6"
         );
 
-        setTimeout(() => {
-
-            player.magnetActive =
-                false;
-
-        }, 8000);
+     magnetTimer = 8000;
 
     }
 
@@ -1275,12 +1274,7 @@ function activatePowerUp(
             "#ffd43b"
         );
 
-        setTimeout(() => {
-
-            player.speedBoostActive =
-                false;
-
-        }, 5000);
+       speedBoostTimer = 5000;
 
     }
 
@@ -2078,6 +2072,38 @@ function gameLoop() {
 
     if (gamePaused) {
         return;
+    }
+        // --------------------------------
+    // Power-up timers
+    // --------------------------------
+
+    // These timers only decrease while
+    // the game loop is running.
+    // Therefore they automatically pause
+    // when Playables pauses the game.
+
+    if (player.magnetActive) {
+
+        magnetTimer -= 16.67;
+
+        if (magnetTimer <= 0) {
+
+            player.magnetActive = false;
+            magnetTimer = 0;
+
+        }
+    }
+
+    if (player.speedBoostActive) {
+
+        speedBoostTimer -= 16.67;
+
+        if (speedBoostTimer <= 0) {
+
+            player.speedBoostActive = false;
+            speedBoostTimer = 0;
+
+        }
     }
 
     ctx.clearRect(
