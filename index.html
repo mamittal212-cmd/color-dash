@@ -323,15 +323,41 @@
     </div>
 
 
-    <script src="game.js"></script>
+   <!-- YouTube Playables SDK -->
+<script src="https://www.youtube.com/game/playersdk.js"></script>
+
+<!-- Color Dash Game -->
+<script src="game.js"></script>
+
+<!-- Loading Screen -->
 <script>
     window.addEventListener("load", function () {
+
         const loadingScreen =
             document.getElementById("loadingScreen");
+
+        // Tell YouTube that the first frame/loading screen is ready
+        if (
+            typeof ytgame !== "undefined" &&
+            ytgame.game &&
+            ytgame.game.firstFrameReady
+        ) {
+            ytgame.game.firstFrameReady();
+        }
 
         if (loadingScreen) {
             loadingScreen.classList.add("hidden");
         }
+
+        // Tell YouTube that the game is now interactive
+        if (
+            typeof ytgame !== "undefined" &&
+            ytgame.game &&
+            ytgame.game.gameReady
+        ) {
+            ytgame.game.gameReady();
+        }
+
     });
 </script>
 </body>
