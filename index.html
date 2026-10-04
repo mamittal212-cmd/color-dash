@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#7c3aed"
+    >
+    <link rel="icon" type="image/png" href="assets/color-dash-icon.png">
+    <title>Color Dash 🎨</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+
+    <div id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">🌈</div>
+            <h2>COLOR DASH</h2>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <div class="game-container">
+
+        <!-- =========================
+             DECORATIVE BACKGROUND
+        ========================== -->
+
+        <div class="floating-shape shape-one"></div>
+        <div class="floating-shape shape-two"></div>
+        <div class="floating-shape shape-three"></div>
+        <div class="floating-shape shape-four"></div>
+
+
+        <!-- =========================
+             GAME HUD
+        ========================== -->
+
+        <div class="top-bar">
+
+            <div class="hud-item score-box">
+                <span class="hud-icon">⭐</span>
+                <span id="score">0</span>
+            </div>
+
+
+            <div
+                class="hud-item lives-box"
+                id="lives"
+            >
+                ❤️ ❤️ ❤️
+            </div>
+
+
+            <div class="hud-buttons">
+
+                <button
+                    id="pauseButton"
+                    class="hud-button pause-button"
+                    type="button"
+                    aria-label="Pause game"
+                >
+                    ⏸
+                </button>
+
+
+                <button
+                    id="soundButton"
+                    class="hud-button sound-button"
+                    type="button"
+                    aria-label="Toggle sound"
+                >
+                    🔊
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             GAME CANVAS
+        ========================== -->
+
+        <canvas id="gameCanvas"></canvas>
+
+
+        <!-- =========================
+             MOBILE CONTROLS
+        ========================== -->
+
+        <div class="mobile-controls">
+
+            <button
+                id="leftButton"
+                type="button"
+                aria-label="Move left"
+            >
+                ◀
+            </button>
+
+
+            <button
+                id="rightButton"
+                type="button"
+                aria-label="Move right"
+            >
+                ▶
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             START SCREEN
+        ========================== -->
+
+        <div
+            id="startScreen"
+            class="screen start-screen"
+        >
+
+            <div class="start-card">
+
+                <div class="game-badge">
+                    ✨ FUN ARCADE GAME ✨
+                </div>
+
+
+                <div class="logo">
+
+                    <div class="rainbow">
+                        🌈
+                    </div>
+
+                    <h1>
+                        COLOR
+                        <span>DASH</span>
+                    </h1>
+
+                    <div class="logo-sparkles">
+                        ✨ ⭐ ✨
+                    </div>
+
+                </div>
+
+
+                <p class="tagline">
+                    Dodge. Collect. Survive!
+                </p>
+
+
+                <div class="mini-instructions">
+
+                    <div class="instruction">
+                        <span>💥</span>
+                        <strong>Dodge</strong>
+                    </div>
+
+                    <div class="instruction">
+                        <span>🪙</span>
+                        <strong>Collect</strong>
+                    </div>
+
+                    <div class="instruction">
+                        <span>⚡</span>
+                        <strong>Power Up</strong>
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="startButton"
+                    class="main-button"
+                    type="button"
+                >
+                    <span>▶</span>
+                    START GAME
+                </button>
+
+
+                <div class="controls-hint">
+
+                    <span>⌨️</span>
+
+                    <span>
+                        Use
+                        <b>← →</b>
+                        or
+                        <b>A / D</b>
+                        to move
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             PAUSE SCREEN
+        ========================== -->
+
+        <div
+            id="pauseScreen"
+            class="screen hidden pause-screen"
+        >
+
+            <div class="pause-card">
+
+                <div class="pause-icon">
+                    ⏸️
+                </div>
+
+                <h1>
+                    PAUSED
+                </h1>
+
+                <p>
+                    Take a little break!
+                </p>
+
+                <button
+                    id="resumeButton"
+                    class="main-button"
+                    type="button"
+                >
+                    ▶ RESUME
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             GAME OVER
+        ========================== -->
+
+        <div
+            id="gameOverScreen"
+            class="screen hidden game-over-screen"
+        >
+
+            <div class="game-over-card">
+
+                <div class="game-over-icon">
+                    😵
+                </div>
+
+
+                <div class="game-over-badge">
+                    GAME OVER
+                </div>
+
+
+                <h1>
+                    NICE TRY!
+                </h1>
+
+
+                <div class="score-result">
+
+                    <div class="result-box">
+
+                        <span>
+                            SCORE
+                        </span>
+
+                        <strong id="finalScore">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="result-box best-result">
+
+                        <span>
+                            BEST
+                        </span>
+
+                        <strong id="finalBest">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="restartButton"
+                    class="main-button"
+                    type="button"
+                >
+                    🔄 PLAY AGAIN
+                </button>
+
+
+                <p class="game-over-message">
+                    Can you beat your best score? 🏆
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="game.js"></script>
+<script>
+    window.addEventListener("load", function () {
+        const loadingScreen =
+            document.getElementById("loadingScreen");
+
+        if (loadingScreen) {
+            loadingScreen.classList.add("hidden");
+        }
+    });
+</script>
+</body>
+
+</html>
